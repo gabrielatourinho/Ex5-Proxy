@@ -22,8 +22,47 @@ public class WebRetriever {
         input = socket.getInputStream();
     }
     
+    public void request(String path){
+        try{
+            String message = "GET"+path+"\n\n";
+            output.write(message.getBytes());
+            output.flush();
+        } catch (IOException e){
+            System.err.println("Error in HTTOP request");
+        }
+    }
+   
+    public void getResponse(){
+        int c;
+        try {
+            while ((c = input.read()) != -1)
+                System.out.print((char) c);
+        } catch (IOException e) {
+            System.err.println("IOException in reading from Web server");
+        }
+    }
+    
+    public void close(){
+        try{
+            input.close();
+            output.close();
+            socket.close();
+        } catch (IOException e){
+            System.err.println("IOException in closing connection");
+        }
+    }
+    
     public static void main(String[] args) {
-        // TODO code application logic here
+        try {
+            WebRetriever w = new WebRetriever("www.nus.edu.sg", 80);
+            w.request("/NUSinfo/UG/ug.html");
+            w.getResponse();
+            w.close();
+        } catch (UnknownHostException h){
+            System.err.println("Hostname Unknown");
+        } catch (IOException i){
+            System.err.println("IOException in connectins to Host");
+        }
     }
     
 }
