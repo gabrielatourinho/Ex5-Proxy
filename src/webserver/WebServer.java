@@ -38,7 +38,7 @@ public class WebServer {
 
                 System.out.println("Mensagem recebida do cliente ["+socket.getInetAddress().getHostName()+"]: "+message);
                 
-                if (message.equals(""))
+                if (message.equals("GET "))
                     break;
                 
                 //out.println(message);
@@ -69,7 +69,7 @@ public class WebServer {
             while ((c = f.read()) != -1){
                 output.write(c);
             }
-            output.write(1);
+            output.write(1); // :)
             
             f.close();
         } catch (IOException e) {
