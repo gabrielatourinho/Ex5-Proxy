@@ -90,7 +90,7 @@ public class WebServer {
     public static void main(String args[]){
         try {
             System.out.println("Iniciando Servidor.");
-            ServerSocket s = new ServerSocket(2525); //responsável por esperar a conexão do cliente, passamos a porta para escutar a conexão
+            ServerSocket s = new ServerSocket(3323); //responsável por esperar a conexão do cliente, passamos a porta para escutar a conexão
             
             System.out.println("Aguardando conexão.");
             WebServer w = new WebServer(s.accept()); //aguarda até a conexão ser aceita
