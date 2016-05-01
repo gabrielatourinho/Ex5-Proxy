@@ -24,11 +24,11 @@ public class WebRetriever {
     
     public void request(String path){
         try{
-            String message = "GET"+path+"\n\n";
+            String message = "GET "+path+"\n\n";
             output.write(message.getBytes());
             output.flush();
         } catch (IOException e){
-            System.err.println("Error in HTTOP request");
+            System.err.println("Error in HTTP request");
         }
     }
    
