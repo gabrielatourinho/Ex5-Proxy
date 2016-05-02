@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package webretriever;
 import java.io.*;
 import java.net.*;
@@ -41,11 +36,6 @@ public class WebRetriever {
                     break;
                 getResponse();   
             }
-            
-            /*
-            String message = "GET "+path+"\n\n";
-            output.write(message.getBytes());
-            output.flush();*/
             
         } catch (Exception e){
             System.err.println("Error in HTTP request");

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package webserver;
 import java.io.*;
 import java.net.*;
@@ -38,7 +33,7 @@ public class WebServer {
 
                 System.out.println("Mensagem recebida do cliente ["+socket.getInetAddress().getHostName()+"]: "+message);
                 
-                if (message.equals("GET "))
+                if (message == null || message.equals("GET "))
                     break;
                 
                 //out.println(message);
@@ -62,9 +57,7 @@ public class WebServer {
     public void returnResponse() {
         int c;
         try {
-            System.out.println("antes");
             FileInputStream f = new FileInputStream(resource); //tenta abrir um arquivo com o path name do resource!
-            System.out.println("depois");
             
             while ((c = f.read()) != -1){
                 output.write(c);

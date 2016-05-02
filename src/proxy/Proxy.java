@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package proxy;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,8 +8,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
-import java.util.StringTokenizer;
 
 /**
  *
@@ -42,7 +34,9 @@ public class Proxy {
         
         //construindo o servidor do WebRetriever
         ss = new ServerSocket(2525);
+        System.out.println("Aguardando conexão.");
         socket_s = ss.accept();
+        System.out.println("Conexão estabelecida.");
         output_s = socket_s.getOutputStream();
         input_s = socket_s.getInputStream();
         in_s = new BufferedReader(new InputStreamReader(input_s));
@@ -57,18 +51,10 @@ public class Proxy {
                 String message;
                 message = in_s.readLine();
 
-                System.out.println("Mensagem recebida do cliente ["+socket_s.getInetAddress().getHostName()+"]: "+message);
+                System.out.println("Mensagem recebida do cliente a ser enviada ao servidor ["+socket_s.getInetAddress().getHostName()+"]: "+message);
                 
                 if (message.equals("GET "))
                     break;
-                
-                //out.println(message);
-                /*StringTokenizer t = new StringTokenizer(message);
-                String token = t.nextToken(); // get first token
-                System.out.println("token: "+token);
-                if (token.equals("GET"))      // if token is "GET" // quando começa com GET
-                    resource = t.nextToken(); // get second token  // armazena o restante da string em resource
-                System.out.println("resource: "+resource);*/
                 
                 request(message);
                 getResponse();
@@ -83,25 +69,14 @@ public class Proxy {
     }
     
     public void returnResponse() {
-        int c;
+        
         try {
-            //output_s = input_r;
-            
-            /*System.out.println("antes");
-            FileInputStream f = new FileInputStream(resource); //tenta abrir um arquivo com o path name do resource!
-            System.out.println("depois");
-            
-            while ((c = f.read()) != -1){
-                output_s.write(c);
-            }
-            output_s.write(1); // :)
-            
-            f.close();*/
             
             for (int i = 0; i < response.length(); i++){
                 output_s.write(response.charAt(i));
             }
             output_s.write(1); // :)
+            
             
         } catch (IOException e) {
             System.err.println("IOException in reading Web server");
@@ -111,21 +86,6 @@ public class Proxy {
     public void request(String message){
         try{
             out_r.println(message);
-            /*Scanner scanner = new Scanner(System.in);
-            
-            while (true){
-                System.out.println("Digite o nome do arquivo que deseja acessar: ");
-                String message = "GET "+scanner.nextLine();
-                out_r.println(message);
-                if (message.equals("GET "))
-                    break;
-                getResponse();   
-            }*/
-            
-            /*
-            String message = "GET "+path+"\n\n";
-            output.write(message.getBytes());
-            output.flush();*/
             
         } catch (Exception e){
             System.err.println("Error in HTTP request");
@@ -135,10 +95,11 @@ public class Proxy {
     public void getResponse(){
         int c;
         try {
+            response = "";
             while ((c = input_r.read()) != -1){
                 if (c == 1)
                     break;
-                //System.out.print((char) c);
+                
                 response = response + (char)c;
             }
         } catch (IOException e) {
@@ -162,16 +123,16 @@ public class Proxy {
     public static void main(String args[]){
         try{
             //criar o cliente do servidor, depois o servidor do cliente
-            System.out.println("merda");
+            System.out.println("Iniciando proxy.");
             Proxy p = new Proxy();
             
             p.getRequest();
             
+            System.out.println("Encerrando conexão.");
             p.close();
             
         }catch(Exception e){
             e.printStackTrace();
-            System.err.println("deu ruim");
         }
     }
 }
